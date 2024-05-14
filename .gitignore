@@ -1,5 +1,4 @@
 # Miscellaneous
-lib/features
 *.class
 *.log
 *.pyc
