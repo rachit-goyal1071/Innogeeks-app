@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96516272822",
+    "project_id": "innogeeks-app",
+    "storage_bucket": "innogeeks-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96516272822:android:8b516823ae5fdc29772c17",
+        "android_client_info": {
+          "package_name": "com.example.innogeeks_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8jE44H10k3rPpyOGF3-2jBUYdkpjMuSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
