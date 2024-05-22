@@ -47,6 +47,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   flutter_riverpod: ^2.5.1
   google_fonts: ^6.2.1
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
