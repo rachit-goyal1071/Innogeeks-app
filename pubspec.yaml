@@ -44,6 +44,9 @@ dependencies:
   cloud_firestore: ^4.8.5
   firebase_messaging: ^14.6.8
   lottie: ^3.0.0
+  flutter_native_splash: ^2.4.0
+  flutter_riverpod: ^2.5.1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +64,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+  - assets/images/
+  - assets/svgs/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

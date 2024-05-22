@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:innogeeks_app/features/auth/bloc/auth_cubit.dart';
 import 'package:innogeeks_app/features/auth/ui/verify_otp_page.dart';
 import 'package:lottie/lottie.dart';
@@ -19,19 +20,21 @@ class SignInPage extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/inno-logo.png',
-                  height: MediaQuery.of(context).size.height * 0.55,
-                  width: MediaQuery.of(context).size.width,
+                  'assets/images/innos_logo.png',
+                  height: MediaQuery.of(context).size.height * 0.45,
+                  width: MediaQuery.of(context).size.width *0.8,
                   fit: BoxFit.cover,
+                  alignment: Alignment.centerLeft,
                 ),
                 const SizedBox(height: 20,),
-                const Text(
+                Text(
                   'ONLY GEEKS',
-                  style: TextStyle(
+                  style: GoogleFonts.sourceSans3(
                     color: Colors.black,
-                    fontSize: 20,
+                    fontSize: getScreenheight(context)*0.054,
                     fontWeight: FontWeight.w700,
                   ),),
                 const SizedBox(height: 20),
@@ -61,7 +64,7 @@ class SignInPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(left:19,right:19),
                   child: TextFormField(
