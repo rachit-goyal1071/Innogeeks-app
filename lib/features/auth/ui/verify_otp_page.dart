@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:innogeeks_app/features/auth/bloc/auth_cubit.dart';
 import 'package:innogeeks_app/features/auth/ui/auth_loading_page.dart';
+import 'package:innogeeks_app/features/auth/ui/user_details_page.dart';
+import 'package:innogeeks_app/features/nav_bar/ui/nav_bar.dart';
 import 'package:lottie/lottie.dart';
 
 class VerifyOtpPage extends StatefulWidget {
@@ -14,6 +16,9 @@ class VerifyOtpPage extends StatefulWidget {
 }
 
 class _VerifyOtpPageState extends State<VerifyOtpPage> {
+
+  AuthCubit authCubit = AuthCubit();
+
   TextEditingController otpController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -79,7 +84,8 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                 ),
               ),
               const SizedBox(height: 20,),
-              BlocConsumer(
+              BlocConsumer<AuthCubit,AuthState>(
+                  bloc: authCubit,
                   listener: (context,state){
                     if(state is AuthLoggedInState){
                       Navigator.popUntil(context, (route) => route.isFirst);
@@ -104,8 +110,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                       children: [
                         ElevatedButton(
                             onPressed: (){
-                              BlocProvider.of<AuthCubit>(context).
-                              verifyOtp(otpController.text, context);
+                              BlocProvider.of<AuthCubit>(context).verifyOtp(otpController.text, context);
                             },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: const Color.fromARGB(
@@ -121,19 +126,19 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                         const SizedBox(height: 10.0),
                         OutlinedButton(
                           onPressed: () {
-                            // Handle resend OTP button press
+                            BlocProvider.of<AuthCubit>(context).sendOTP(phone: '+91${widget.gotNumber}');
                           },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: const Color.fromARGB(255, 251, 107,
                                 35), side: const BorderSide(
-                            color: Color.fromARGB(255, 251, 107, 35),
+                            color: Colors.grey,
                           ), // Reddish orange border
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   5.0), // Adjust border radius as needed
                             ),
                           ),
-                          child: const Text('Resend Verification OTP'),
+                          child: const Text('Resend Verification OTP',style: TextStyle(color: Colors.black),),
                         ),
                       ],
                     );

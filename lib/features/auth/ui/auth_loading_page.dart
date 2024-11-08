@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:innogeeks_app/features/auth/bloc/auth_cubit.dart';
+import 'package:innogeeks_app/features/auth/ui/user_details_page.dart';
 import 'package:lottie/lottie.dart';
 
 class AuthLoadingPage extends StatefulWidget {
@@ -28,9 +29,9 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> {
           if(state is AuthCodeVerifiedState){
             // Navigate to userDetailsPage when OTP is verified
             // Navigator.pushReplacementNamed(context, 'userDetailsPage');
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const SizedBox())); // to user details page(On boarding)
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const UserDetailsPage())); // to user details page(On boarding)
           } else if(state is UserDoesNotExistState){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const SizedBox())); // to user details page(On boarding)
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const UserDetailsPage())); // to user details page(On boarding)
           }else if(state is UserAlreadyExistState){
             Navigator.pushReplacementNamed(context, ''); //Route to the home page
           }

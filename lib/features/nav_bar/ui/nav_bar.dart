@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:innogeeks_app/features/attendance/ui/attendance_page.dart';
+import 'package:innogeeks_app/features/home/ui/home_page.dart';
 import 'package:innogeeks_app/features/nav_bar/bloc/nav_bar_bloc.dart';
+import 'package:innogeeks_app/features/profile/ui/profile_page.dart';
 
 import '../../../constants/dimensions.dart';
 
@@ -12,20 +15,14 @@ class NavBar extends StatefulWidget {
   State<NavBar> createState() => _NavBarState();
 }
 
-Map<int, GlobalKey> navigatorKeys = {
-  0: GlobalKey(),
-  1: GlobalKey(),
-  2: GlobalKey(),
-  3: GlobalKey(),
-};
-
 class _NavBarState extends State<NavBar> {
 
-  final PageController _pageController=PageController();
+  final PageController _pageController = PageController();
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index){
     setState(() {
-      // _selectedIndex = index;
+      _selectedIndex = index;
     });
   }
 
@@ -34,17 +31,17 @@ class _NavBarState extends State<NavBar> {
     List<BottomNavigationBarItem> bottomNavigationBarItems = <BottomNavigationBarItem>[
       const BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.house,color: Colors.black38,),
-        label: 'Home',
-        activeIcon: Icon(FontAwesomeIcons.house,color: Colors.blue,)
-      ),
-      const BottomNavigationBarItem(
-          icon: Icon(FontAwesomeIcons.house,color: Colors.black38,),
           label: 'Home',
           activeIcon: Icon(FontAwesomeIcons.house,color: Colors.blue,)
       ),
       const BottomNavigationBarItem(
+          icon: Icon(FontAwesomeIcons.userClock,color: Colors.black38,),
+          label: 'Attendance',
+          activeIcon: Icon(FontAwesomeIcons.userClock,color: Colors.blue,)
+      ),
+      const BottomNavigationBarItem(
           icon: Icon(FontAwesomeIcons.house,color: Colors.black38,),
-          label: 'Home',
+          label: 'Not Home',
           activeIcon: Icon(FontAwesomeIcons.house,color: Colors.blue,)
       ),
       const BottomNavigationBarItem(
@@ -54,12 +51,17 @@ class _NavBarState extends State<NavBar> {
       ),
     ];
     List<Widget> navigationBarScreen = <Widget>[
-
+      const HomePage(),
+      const AttendancePage(),
+      const HomePage(),
+      const ProfilePage()
     ];
     return BlocConsumer<NavBarBloc,NavBarState>(
         listener: (context,state){},
         builder: (context,state){
           return Scaffold(
+            extendBody: true,
+            backgroundColor: Colors.white,
             body: PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
@@ -75,7 +77,7 @@ class _NavBarState extends State<NavBar> {
                 boxShadow: const [BoxShadow(color: Color(0xffFCEFC7),blurRadius: 1,offset: Offset.zero,spreadRadius: 0.5)],
                 borderRadius: BorderRadius.circular(20),
               ),
-              margin: const EdgeInsets.symmetric(horizontal: 10).copyWith(bottom: getScreenheight(context) * 0.02),
+              margin: const EdgeInsets.symmetric(horizontal: 10).copyWith(bottom: getScreenHeight(context) * 0.02),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: BottomNavigationBar(

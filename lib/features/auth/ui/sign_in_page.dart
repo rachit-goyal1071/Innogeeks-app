@@ -1,11 +1,12 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:innogeeks_app/constants/colors.dart';
 import 'package:innogeeks_app/features/auth/bloc/auth_cubit.dart';
 import 'package:innogeeks_app/features/auth/ui/verify_otp_page.dart';
-import 'package:lottie/lottie.dart';
-
 import '../../../constants/dimensions.dart';
 
 class SignInPage extends StatelessWidget {
@@ -34,7 +35,7 @@ class SignInPage extends StatelessWidget {
                   'ONLY GEEKS',
                   style: GoogleFonts.sourceSans3(
                     color: Colors.black,
-                    fontSize: getScreenheight(context)*0.054,
+                    fontSize: getScreenHeight(context)*0.054,
                     fontWeight: FontWeight.w700,
                   ),),
                 const SizedBox(height: 20),
@@ -97,8 +98,11 @@ class SignInPage extends StatelessWidget {
                 BlocConsumer<AuthCubit,AuthState>(
                   listener: (context,state){
                     if(state is AuthCodeSentState){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOtpPage(gotNumber: phoneController.text)));
+                      Navigator.push(context, CupertinoPageRoute(builder: (context)=> VerifyOtpPage(gotNumber: phoneController.text)));
                     }else if(state is AuthErrorState){
+                      if (kDebugMode) {
+                        print(state.error);
+                      }
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(state.error),
@@ -110,7 +114,7 @@ class SignInPage extends StatelessWidget {
                   builder: (context,state){
                     if(state is AuthLoadingState){
                       return Center(
-                        child: Lottie.asset('assets/svgs/infinity_loader.json'),
+                        child: Image.asset('assets/gif/loader_1.gif',color: primaryInnoColor,)
                       );
                     }
                     return SizedBox(
