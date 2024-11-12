@@ -48,9 +48,7 @@ class _AttendancePageState extends State<AttendancePage> {
                       });
                     }
                 ),
-                borderData: FlBorderData(
-                  show: false,
-                ),
+                borderData: FlBorderData(show: false,),
                 sectionsSpace: 0,
               ),
               swapAnimationDuration: const Duration(milliseconds: 150),
@@ -62,7 +60,7 @@ class _AttendancePageState extends State<AttendancePage> {
     );
   }
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingSections(){
     return List.generate(4, (i) {
       final isTouched = (i == touchedIndex);
       final fontSize = isTouched ? 20.0 : 16.0;

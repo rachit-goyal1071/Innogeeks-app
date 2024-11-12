@@ -33,7 +33,7 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> {
           } else if(state is UserDoesNotExistState){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> const UserDetailsPage())); // to user details page(On boarding)
           }else if(state is UserAlreadyExistState){
-            Navigator.pushReplacementNamed(context, ''); //Route to the home page
+            Navigator.pushReplacementNamed(context, '/'); //Route to the home page
           }
         },
         builder: (context, state){

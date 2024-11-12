@@ -111,9 +111,9 @@ class AuthService {
     required String lastName,
     required String mobileNumber,
     required String address,
-    required String email
+    required String email,
+    required String lib,
   }) async {
-    // get fcm token
     final firebaseMessaging = FirebaseMessaging.instance;
     final fcmToken = await firebaseMessaging.getToken();
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
@@ -121,9 +121,9 @@ class AuthService {
       'lastName': lastName,
       'mobileNumber': mobileNumber,
       'address': address,
-      'userExists': true,
       'fcm': fcmToken,
       'email': email,
+      'lib':lib,
     });
   }
 

@@ -48,7 +48,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void verifyOtp(String otp, BuildContext context) {
     emit(AuthLoadingState());
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+    AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: _verificationId!,
         smsCode: otp);
     signInWIthPhone(credential, context);
@@ -74,7 +74,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
 
-  void signInWIthPhone(PhoneAuthCredential credential,
+  void signInWIthPhone(AuthCredential credential,
       BuildContext context) async {
     try {
       UserCredential userCredential =

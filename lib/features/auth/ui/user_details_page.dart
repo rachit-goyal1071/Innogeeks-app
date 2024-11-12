@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:innogeeks_app/constants/fonts.dart';
+import 'package:innogeeks_app/main.dart';
 
 import '../../../constants/dimensions.dart';
 import '../../widgets/text_field.dart';
@@ -21,7 +23,7 @@ class UserDetailsPageState extends State<UserDetailsPage> {
   final lastNameController = TextEditingController();
   final mobileController = TextEditingController();
   final addressController = TextEditingController();
-  final pinController = TextEditingController();
+  final libController = TextEditingController();
   final emailController = TextEditingController();
   String? phone = '';
 
@@ -51,14 +53,14 @@ class UserDetailsPageState extends State<UserDetailsPage> {
         .doc('fcmUsers')
         .collection('fcms')
         .doc(fcm)
-        .set({'name': firstName});
+        .set({'name': firstName,'uid':userIdMain});
 
-    final docRef2 = FirebaseFirestore.instance.collection('fcmtokens').doc('fcmdoc3');
-    DocumentSnapshot documentSnapshot2 = await docRef2.get();
-    List<String> currentArray2 = List<String>.from(documentSnapshot2.get('fcms'));
-    currentArray2.add(fcm!);
-    await docRef2.update({'fcms': currentArray2});
-  }
+    // final docRef2 = FirebaseFirestore.instance.collection('fcmtokens').doc('fcmdoc3');
+    // DocumentSnapshot documentSnapshot2 = await docRef2.get();
+    // List<String> currentArray2 = List<String>.from(documentSnapshot2.get('fcms'));
+    // currentArray2.add(fcm!);
+    // await docRef2.update({'fcms': currentArray2});
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -92,17 +94,26 @@ class UserDetailsPageState extends State<UserDetailsPage> {
               keyboardType: TextInputType.number,
             ),
             DetailsTextField(controller: emailController, label: "Email"),
-            DetailsTextField(controller: addressController, label: 'Address'),
+            DetailsTextField(controller: addressController, label: 'Address',icon:IconButton(
+                onPressed: (){
+                  showDialog(
+                      context: context, builder: (context){
+                        return const Dialog(
+                          backgroundColor:Colors.white,child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: SmallTextType(text: 'Add Current Address'),
+                        ),);
+                      });},
+                icon: const Icon(Icons.info_outline)),),
             DetailsTextField(
-              controller: pinController,
-              label: 'Pin code',
-              keyboardType: TextInputType.number,
+              controller: libController,
+              label: 'Library ID',
+              keyboardType: TextInputType.text,
             ),
-
             SizedBox(height: getScreenWidth(context) * 0.07),
             TextButton(
               onPressed: () async {
-                if(firstNameController.text.isEmpty || lastNameController.text.isEmpty || mobileController.text.isEmpty || emailController.text.isEmpty || pinController.text.isEmpty){
+                if(firstNameController.text.isEmpty || lastNameController.text.isEmpty || mobileController.text.isEmpty || emailController.text.isEmpty || libController.text.isEmpty){
                   return openErrorSnackBar(context, "Please add complete details");
                 }
                 else {
@@ -110,8 +121,9 @@ class UserDetailsPageState extends State<UserDetailsPage> {
                     firstName: firstNameController.text,
                     lastName: lastNameController.text,
                     mobileNumber: mobileController.text,
-                    address: '',
+                    address: addressController.text,
                     email: emailController.text,
+                    lib: libController.text
                   );
                   uploadFcm(firstNameController.text);
                   Navigator.pushReplacementNamed(context, '/');
