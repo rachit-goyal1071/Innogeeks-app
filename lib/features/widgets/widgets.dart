@@ -65,3 +65,28 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class SimpleButton extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onTap;
+
+  const SimpleButton({
+    super.key,
+    required this.onTap,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          splashColor: Colors.grey.withOpacity(0.2),
+          child: child
+      ),
+    );
+  }
+}

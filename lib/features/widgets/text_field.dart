@@ -15,6 +15,8 @@ class DetailsTextField extends StatelessWidget {
   final Color activeBorderColor;
   final Color? fillColor;
   final Function? onTap;
+  final IconButton? icon;
+  final String? suffixText;
   const DetailsTextField({
     required this.controller,
     required this.label,
@@ -26,6 +28,8 @@ class DetailsTextField extends StatelessWidget {
     this.activeBorderColor = primaryInnoColor,
     this.fillColor = const Color.fromARGB(255, 247, 247, 247),
     this.onTap,
+    this.icon,
+    this.suffixText,
     super.key,
   });
 
@@ -45,6 +49,8 @@ class DetailsTextField extends StatelessWidget {
         keyboardType: keyboardType,
         style: const TextStyle(color: Colors.black),
         decoration: InputDecoration(
+          suffixText: suffixText,
+          suffixIcon: icon,
             labelStyle: GoogleFonts.sourceSans3(fontSize:14,color: const Color(0xff121A2C),fontWeight: FontWeight.w400),
             contentPadding: const EdgeInsets.fromLTRB(5.0 , 10.0 , 5.0 , 10.0),
             enabledBorder: OutlineInputBorder(
