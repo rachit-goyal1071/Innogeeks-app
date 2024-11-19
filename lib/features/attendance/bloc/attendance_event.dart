@@ -1,4 +1,6 @@
 part of 'attendance_bloc.dart';
 
-@immutable
-sealed class AttendanceEvent {}
+sealed class AttendanceEvent{}
+
+class AttendanceInitialEvent extends AttendanceEvent{}
+

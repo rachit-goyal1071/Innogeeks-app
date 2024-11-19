@@ -54,13 +54,7 @@ class UserDetailsPageState extends State<UserDetailsPage> {
         .collection('fcms')
         .doc(fcm)
         .set({'name': firstName,'uid':userIdMain});
-
-    // final docRef2 = FirebaseFirestore.instance.collection('fcmtokens').doc('fcmdoc3');
-    // DocumentSnapshot documentSnapshot2 = await docRef2.get();
-    // List<String> currentArray2 = List<String>.from(documentSnapshot2.get('fcms'));
-    // currentArray2.add(fcm!);
-    // await docRef2.update({'fcms': currentArray2});
-    }
+   }
 
   @override
   Widget build(BuildContext context) {
