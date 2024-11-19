@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState(){
     super.initState();
     getDetails();
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,8 @@ class _ProfilePageState extends State<ProfilePage> {
               child: CircleAvatar(
                 radius: getScreenWidth(context)*0.15,
                 foregroundImage:
-                !isThereError?
+                // !isThereError?
+                personalData['profile']!=null?
                 NetworkImage(personalData['profile']):
                 NetworkImage('https://firebasestorage.googleapis.com/v0/b/innogeeks-app.firebasestorage.app/o/img%2Fimg_user.jpg?alt=media&token=dbc339df-0547-4e2d-b182-606d6a7e0bd7'),
                 onForegroundImageError: (_,__){
@@ -59,6 +60,12 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             SizedBox(height: getScreenHeight(context)*0.01,),
+            Center(
+              child: SmallTextType(
+                text: personalData[''],
+                color: Colors.green,
+              ),
+            ),
             SimpleButton(
                 onTap:(){
                   showDialog(
