@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:innogeeks_app/constants/colors.dart';
 import 'package:innogeeks_app/features/auth/bloc/auth_cubit.dart';
 import 'package:innogeeks_app/features/auth/ui/verify_otp_page.dart';
-import 'package:lottie/lottie.dart';
-
 import '../../../constants/dimensions.dart';
 
 class SignInPage extends StatelessWidget {
@@ -19,19 +21,21 @@ class SignInPage extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/inno-logo.png',
-                  height: MediaQuery.of(context).size.height * 0.55,
-                  width: MediaQuery.of(context).size.width,
+                  'assets/images/innos_logo.png',
+                  height: MediaQuery.of(context).size.height * 0.45,
+                  width: MediaQuery.of(context).size.width *0.8,
                   fit: BoxFit.cover,
+                  alignment: Alignment.centerLeft,
                 ),
                 const SizedBox(height: 20,),
-                const Text(
+                Text(
                   'ONLY GEEKS',
-                  style: TextStyle(
+                  style: GoogleFonts.sourceSans3(
                     color: Colors.black,
-                    fontSize: 20,
+                    fontSize: getScreenHeight(context)*0.054,
                     fontWeight: FontWeight.w700,
                   ),),
                 const SizedBox(height: 20),
@@ -61,7 +65,7 @@ class SignInPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(left:19,right:19),
                   child: TextFormField(
@@ -94,8 +98,11 @@ class SignInPage extends StatelessWidget {
                 BlocConsumer<AuthCubit,AuthState>(
                   listener: (context,state){
                     if(state is AuthCodeSentState){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOtpPage(gotNumber: phoneController.text)));
+                      Navigator.push(context, CupertinoPageRoute(builder: (context)=> VerifyOtpPage(gotNumber: phoneController.text)));
                     }else if(state is AuthErrorState){
+                      if (kDebugMode) {
+                        print(state.error);
+                      }
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(state.error),
@@ -107,7 +114,7 @@ class SignInPage extends StatelessWidget {
                   builder: (context,state){
                     if(state is AuthLoadingState){
                       return Center(
-                        child: Lottie.asset('assets/svgs/infinity_loader.json'),
+                        child: Image.asset('assets/gif/loader_1.gif',color: primaryInnoColor,)
                       );
                     }
                     return SizedBox(

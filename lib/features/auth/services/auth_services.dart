@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AuthServices {
+class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   continueWithGoogle(BuildContext context) async{
     //Trigger authentication flow
@@ -105,4 +105,26 @@ class AuthServices {
           // Handle timeout for auto-retrieval of OTP
         });
   }
+
+  Future<void> uploadUserDetails({
+    required String firstName,
+    required String lastName,
+    required String mobileNumber,
+    required String address,
+    required String email,
+    required String lib,
+  }) async {
+    final firebaseMessaging = FirebaseMessaging.instance;
+    final fcmToken = await firebaseMessaging.getToken();
+    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+      'firstName': firstName,
+      'lastName': lastName,
+      'mobileNumber': mobileNumber,
+      'address': address,
+      'fcm': fcmToken,
+      'email': email,
+      'lib':lib,
+    });
+  }
+
 }
