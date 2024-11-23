@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:innogeeks_app/constants/colors.dart';
 import 'package:innogeeks_app/features/auth/bloc/auth_cubit.dart';
 import 'package:innogeeks_app/features/auth/ui/sign_in_page.dart';
 import 'package:innogeeks_app/features/auth/ui/splash_screen.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Only Geeks',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff015F78)),
+          colorScheme: ColorScheme.fromSeed(seedColor: primaryInnoColor),
           useMaterial3: true,
         ),
         home: BlocBuilder<AuthCubit, AuthState>(

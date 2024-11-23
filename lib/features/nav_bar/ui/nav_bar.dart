@@ -5,6 +5,7 @@ import 'package:innogeeks_app/features/attendance/ui/attendance_page.dart';
 import 'package:innogeeks_app/features/home/ui/home_page.dart';
 import 'package:innogeeks_app/features/nav_bar/bloc/nav_bar_bloc.dart';
 import 'package:innogeeks_app/features/profile/ui/profile_page.dart';
+import 'package:innogeeks_app/features/registration/ui/registration_page.dart';
 
 import '../../../constants/dimensions.dart';
 
@@ -53,7 +54,7 @@ class _NavBarState extends State<NavBar> {
     List<Widget> navigationBarScreen = <Widget>[
       const HomePage(),
       const AttendancePage(),
-      const HomePage(),
+      const RegistrationPage(),
       const ProfilePage()
     ];
     return BlocConsumer<NavBarBloc,NavBarState>(
