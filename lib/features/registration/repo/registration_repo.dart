@@ -20,8 +20,9 @@ class RegistrationRepo{
     final docRef = await colRef.doc((DateTime.now().year+4).toString()).get();
     final userDocRef = FirebaseFirestore.instance.collection('users').doc(userIdMain);
     if(docRef.exists){
-      await colRef.doc(DateTime.now().year.toString())
-          .collection(DateTime.now().day.toString())
+      await colRef.doc((DateTime.now().year+4).toString()).update({'registrationCount':FieldValue.increment(1)});
+      await colRef.doc((DateTime.now().year+4).toString())
+          .collection('registeredUsers')
           .doc(userIdMain)
           .update({
         'name':name,
@@ -50,8 +51,10 @@ class RegistrationRepo{
       });
     }
     else{
-      await colRef.doc(DateTime.now().year.toString())
-          .collection(DateTime.now().day.toString())
+      await colRef.doc((DateTime.now().year+4).toString()).set({'userCount':1});
+      await colRef.doc((DateTime.now().year+4).toString()).update({'paidCount':0});
+      await colRef.doc((DateTime.now().year+4).toString())
+          .collection('registeredUsers')
           .doc(userIdMain)
           .set({
         'name':name,
@@ -63,7 +66,8 @@ class RegistrationRepo{
         'address':address,
         'mobileNumber':mobileNumber,
         'lib':lib,
-        'description':description
+        'description':description,
+        'fee':false,
       });
       await userDocRef
           .update({
@@ -77,6 +81,33 @@ class RegistrationRepo{
         'fee':false,
         'isRegistered':true
       });
+    }
+  }
+
+  static Future<void> completePaymentStatus() async{
+    print('object:was called2');
+    final colRef = FirebaseFirestore.instance.collection('registration');
+    final docRef = await colRef.doc((DateTime.now().year+4).toString()).get();
+    final userDocRef = FirebaseFirestore.instance.collection('users').doc(userIdMain);
+    try{
+      if(docRef.exists){
+        await colRef.doc((DateTime.now().year+4).toString()).update({'paidCount':FieldValue.increment(1)});
+        await colRef.doc((DateTime.now().year+4).toString())
+            .collection('registeredUsers')
+            .doc(userIdMain)
+            .update({
+          'fee':true
+        });
+        print('object:was called');
+        await userDocRef
+            .update({
+          'fee':true,
+        });
+      }
+    }catch(e){
+      if(kDebugMode){
+        print(e.toString());
+      }
     }
   }
 
@@ -94,6 +125,38 @@ class RegistrationRepo{
       }
     }else{
       return false;
+    }
+  }
+
+  static Future<Map<String, dynamic>> getRegistrationDetails() async{
+    final docRef = await FirebaseFirestore.instance
+        .collection('registration')
+        .doc((DateTime.now().year+4).toString())
+        .collection('registeredUsers')
+        .doc(userIdMain)
+        .get();
+    if(docRef.exists){
+      try{
+        final data = docRef.data() as Map;
+        return data as Map<String,dynamic>;
+      }catch(e){
+        if(kDebugMode){
+          print(e.toString());
+        }
+        return {};
+      }
+    }else{
+      return {};
+    }
+  }
+
+  static Future<String> getFeeAmount() async{
+    final docRef = await FirebaseFirestore.instance.collection('fee').doc('registrationFee').get();
+    if(docRef.exists){
+      final data = docRef.get('fee');
+      return data;
+    }else{
+      return '';
     }
   }
 }

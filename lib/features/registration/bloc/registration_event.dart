@@ -7,3 +7,5 @@ class InitialRegistrationEvent extends RegistrationEvent{}
 class CandidateRegisteredEvent extends RegistrationEvent{}
 
 class MoveToCandidateFeePaymentPage extends RegistrationEvent{}
+
+class PaymentSuccessfulEvent extends RegistrationEvent{}

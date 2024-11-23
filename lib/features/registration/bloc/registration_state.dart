@@ -19,4 +19,11 @@ class RegistrationLoadedSuccessState extends RegistrationState{
 
 class NewCandidateRegisteredState extends RegistrationActionState{}
 
-class RegisteredCandidateFeePaymentState extends RegistrationState{}
+class RegisteredCandidateFeePaymentState extends RegistrationState{
+  final Map<String,dynamic> data;
+  final String feeAmount;
+  RegisteredCandidateFeePaymentState({
+    required this.data,
+    required this.feeAmount
+  });
+}

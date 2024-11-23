@@ -11,12 +11,20 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     on<InitialRegistrationEvent>(initialRegistrationEvent);
     on<CandidateRegisteredEvent>(candidateRegisteredEvent);
     on<MoveToCandidateFeePaymentPage>(moveToCandidateFeePaymentPage);
+    on<PaymentSuccessfulEvent>(paymentSuccessfulEvent);
   }
 
   FutureOr<void> initialRegistrationEvent(InitialRegistrationEvent event, Emitter<RegistrationState> emit) async{
     emit(RegistrationFetchingState());
     final data = await ProfileRepo.getProfileDetails();
-    if(data.isEmpty){
+    if(await RegistrationRepo.checkUserRegistrationStatus()){
+      final regData = await RegistrationRepo.getRegistrationDetails();
+      final feeAmount = await RegistrationRepo.getFeeAmount();
+      if(regData.isNotEmpty && feeAmount.isNotEmpty){
+        emit(RegisteredCandidateFeePaymentState(data: data,feeAmount: feeAmount));
+      }
+    }
+    else if(data.isEmpty){
       emit(RegistrationErrorState());
     }else{
       emit(RegistrationLoadedSuccessState(data: data));
@@ -29,9 +37,18 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
   FutureOr<void> moveToCandidateFeePaymentPage(MoveToCandidateFeePaymentPage event, Emitter<RegistrationState> emit) async{
     if(await RegistrationRepo.checkUserRegistrationStatus()){
-      emit(RegisteredCandidateFeePaymentState());
+      final data = await RegistrationRepo.getRegistrationDetails();
+      final feeAmount = await RegistrationRepo.getFeeAmount();
+      if(data.isNotEmpty && feeAmount.isNotEmpty){
+        emit(RegisteredCandidateFeePaymentState(data: data,feeAmount: feeAmount));
+      }
     } else {
-      emit(RegistrationFetchingState());
+      emit(RegistrationFetchingState());//requires handling as it should show wait until there is any confirmation from coordinator side
     }
+  }
+
+  FutureOr<void> paymentSuccessfulEvent(PaymentSuccessfulEvent event, Emitter<RegistrationState> emit) async{
+    await RegistrationRepo.completePaymentStatus();
+    emit(NewCandidateRegisteredState());
   }
 }
