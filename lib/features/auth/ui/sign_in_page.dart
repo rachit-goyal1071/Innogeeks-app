@@ -12,6 +12,8 @@ import '../../../constants/dimensions.dart';
 class SignInPage extends StatelessWidget {
   final TextEditingController phoneController = TextEditingController();
 
+  SignInPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +127,7 @@ class SignInPage extends StatelessWidget {
                           BlocProvider.of<AuthCubit>(context).sendOtp(phoneNumber, context);
                         },
                         style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white, backgroundColor: const Color.fromARGB(255, 255, 111, 0),
+                            foregroundColor: Colors.white, backgroundColor: primaryInnoColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4.0),
                           ),

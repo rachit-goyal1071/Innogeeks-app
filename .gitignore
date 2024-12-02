@@ -10,6 +10,7 @@
 .svn/
 migrate_working_dir/
 lib/constants/razorpay_key.dart
+lib/constants/innogeeks_fcm.dart
 
 # IntelliJ related
 *.iml

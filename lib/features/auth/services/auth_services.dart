@@ -26,7 +26,6 @@ class AuthService {
       final UserCredential userCredential = await _auth.signInWithCredential(credential);
       final User? user = userCredential.user;
       if(user != null){
-        // ignore: use_build_context_synchronously
         Navigator.pushReplacementNamed(context, 'authLoadingPage');
       }
       return user;
@@ -61,8 +60,8 @@ class AuthService {
     required String domain,
   }) async {
     //get fcm token
-    final firebaseMessaging = FirebaseMessaging.instance;
-    final fcmToken = await firebaseMessaging.getToken();
+    // final firebaseMessaging = FirebaseMessaging.instance;
+    // final fcmToken = await firebaseMessaging.getToken();
     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
       'firstName': firstName,
       'lastName': lastName,
@@ -126,5 +125,4 @@ class AuthService {
       'lib':lib,
     });
   }
-
 }

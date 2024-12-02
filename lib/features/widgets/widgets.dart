@@ -66,14 +66,26 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-class SimpleButton extends StatelessWidget {
-  final Widget child;
+class SimpleTextButton extends StatelessWidget {
   final VoidCallback onTap;
+  final double radius;
+  final double height;
+  final double width;
+  final double padding;
+  final Color color;
+  final String text;
+  final Color textColor;
 
-  const SimpleButton({
+  const SimpleTextButton({
     super.key,
-    required this.onTap,
-    required this.child,
+    this.radius = 4,
+    this.height = 0.056,
+    this.width = 0.32,
+    this.padding = 0,
+    this.color = primaryInnoColor,
+    this.textColor = Colors.white,
+    required this.text,
+    required this.onTap
   });
 
   @override
@@ -85,6 +97,46 @@ class SimpleButton extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(8),
           splashColor: Colors.grey.withOpacity(0.2),
+          child: Container(
+              padding: EdgeInsets.all(getScreenWidth(context)*padding),
+              height: getScreenHeight(context)*height,
+              width: getScreenWidth(context)*width,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(radius),
+                color: color,
+              ),
+              child: SmallTextType(
+                text: text,
+                color: textColor,
+              )
+          )
+      ),
+    );
+  }
+}
+
+class SimpleChildButton extends StatelessWidget {
+  final Widget child;
+  final VoidCallback onTap;
+  final Color? splashColor;
+
+  const SimpleChildButton({
+    super.key,
+    required this.onTap,
+    required this.child,
+    this.splashColor = Colors.grey
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          splashColor: splashColor!.withOpacity(0.2),  // Ripple effect color
           child: child
       ),
     );

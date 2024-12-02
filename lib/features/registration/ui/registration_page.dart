@@ -98,16 +98,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
       },
         builder: (context, state) {
           switch (state.runtimeType){
+            case RegistrationFetchingState:
+              return const Center(child: CircularProgressIndicator(color: Colors.blue,),);
             case RegistrationErrorState:
               return Center(child: Container(
-                padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Color(0xffD61E11),
                   ),
                   child: Lottie.asset('assets/gif/caution.json',)),);
-            case RegistrationFetchingState:
-              return const Center(child: CircularProgressIndicator(color: Colors.blue,),);
             case RegistrationLoadedSuccessState:
               final successState = state as RegistrationLoadedSuccessState;
               nameController.text = successState.data['firstName'] + ' ' + successState.data['lastName'];
@@ -179,7 +179,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       DetailsTextField(controller: libController, label: 'Lib ID',clickable: false,),
                       DetailsTextField(controller: descriptionController, label: 'Tell us More about yourself'),
                       SizedBox(height: getScreenHeight(context)*0.01,),
-                      Center(child: SimpleButton(onTap: () async{
+                      Center(child: SimpleTextButton(onTap: () async{
                         await RegistrationRepo.registerNewCandidate(
                             name: nameController.text,
                             email: emailController.text,
@@ -192,7 +192,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             lib: libController.text,
                             description: descriptionController.text);
                         registrationBloc.add(CandidateRegisteredEvent());
-                      }, child: const CustomButton(text: 'Submit',width: 0.5,))),
+                      }, text: 'Submit',width: 0.5,)),
                       SizedBox(height: getScreenHeight(context)*0.04,),
                     ],
                   ),
@@ -229,7 +229,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     SmallTextType(text: 'Fee Status: ₹${successState.feeAmount} Pending'),
                     SizedBox(height: getScreenHeight(context)*0.02,),
                     Center(
-                      child: SimpleButton(onTap: () async{
+                      child: SimpleTextButton(onTap: () async{
                         final order_id = await RazorpayAPI.createRazorpayOrder(amount: feeValue);
                         if(kDebugMode){
                           print(order_id.toString());
@@ -251,17 +251,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
                         razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
                         razorpay.open(options);
-                      }, child: const CustomButton(text: 'Final Submit')),
+                      }, text: 'Final Submit',),
                     )
                   ],
                 ):const Center(
                   child: SizedBox(
-                    child: SmallTextType(text: 'Registration Completed'),
+                    child: SmallTextType(text: 'Registration Completed: Wait for the Update'),
                   ),
                 )
               );
             default :
-              return const Center(child: CircularProgressIndicator(color: Colors.green,),);
+              return const Center(child: CircularProgressIndicator(color: Colors.red,),);
           }
       },
     ),
