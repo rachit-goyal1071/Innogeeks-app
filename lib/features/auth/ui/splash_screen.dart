@@ -8,12 +8,14 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Navigate to SignInScreen after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignInPage()),
-      );
+      // Navigator.pushNamedAndRemoveUntil(
+      //     context,
+      //     'signin',
+      //     (route)=>false
+      // );
+      if(!context.mounted) return;
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
     });
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(

@@ -10,6 +10,7 @@ class SmallTextType extends StatelessWidget {
   final FontWeight weight;
   final TextOverflow overflow;
   final TextAlign? textAlign;
+  final int? maxLines ;
   const SmallTextType({
     super.key,
     required this.text,
@@ -17,7 +18,8 @@ class SmallTextType extends StatelessWidget {
     this.size = 16,
     this.weight = FontWeight.w600,
     this.overflow = TextOverflow.ellipsis,
-    this.textAlign
+    this.textAlign,
+    this.maxLines,
   });
 
 
@@ -28,6 +30,7 @@ class SmallTextType extends StatelessWidget {
       text,
       overflow: overflow,
       textAlign: textAlign,
+      maxLines: maxLines,
       style: GoogleFonts.sourceSans3(
         color: color,
         fontSize: (size==16)? sizeV:size,

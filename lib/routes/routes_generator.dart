@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:innogeeks_app/features/auth/bloc/auth_cubit.dart';
 import 'package:innogeeks_app/features/auth/ui/auth_loading_page.dart';
+import 'package:innogeeks_app/features/auth/ui/sign_in_page.dart';
 import 'package:innogeeks_app/features/nav_bar/bloc/nav_bar_bloc.dart';
 import 'package:innogeeks_app/features/nav_bar/ui/nav_bar.dart';
 
@@ -17,6 +18,9 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_)=> BlocProvider<AuthCubit>.value(value: authCubit,child: const AuthLoadingPage(),),
         );
+      case 'signin':
+        return MaterialPageRoute(
+            builder: (_)=> SignInPage());
       default:
         return _errorRoute();
     }

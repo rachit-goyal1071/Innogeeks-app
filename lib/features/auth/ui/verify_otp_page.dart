@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:innogeeks_app/features/auth/bloc/auth_cubit.dart';
 import 'package:innogeeks_app/features/auth/ui/auth_loading_page.dart';
-import 'package:innogeeks_app/features/auth/ui/user_details_page.dart';
-import 'package:innogeeks_app/features/nav_bar/ui/nav_bar.dart';
 import 'package:lottie/lottie.dart';
 
 class VerifyOtpPage extends StatefulWidget {
@@ -110,7 +108,7 @@ class _VerifyOtpPageState extends State<VerifyOtpPage> {
                       children: [
                         ElevatedButton(
                             onPressed: (){
-                              BlocProvider.of<AuthCubit>(context).verifyOtp(otpController.text, context);
+                              BlocProvider.of<AuthCubit>(context).verifyOtp(otpController.text.trim(), context);
                             },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: const Color.fromARGB(

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:innogeeks_app/features/attendance/ui/attendance_page.dart';
+import 'package:innogeeks_app/features/doubts/ui/doubts_page.dart';
 import 'package:innogeeks_app/features/home/ui/home_page.dart';
 import 'package:innogeeks_app/features/nav_bar/bloc/nav_bar_bloc.dart';
 import 'package:innogeeks_app/features/profile/ui/profile_page.dart';
-
 import '../../../constants/dimensions.dart';
 
 class NavBar extends StatefulWidget {
@@ -53,7 +53,7 @@ class _NavBarState extends State<NavBar> {
     List<Widget> navigationBarScreen = <Widget>[
       const HomePage(),
       const AttendancePage(),
-      const HomePage(),
+      const DoubtsPage(),
       const ProfilePage()
     ];
     return BlocConsumer<NavBarBloc,NavBarState>(
