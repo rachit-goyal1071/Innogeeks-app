@@ -24,7 +24,7 @@ class RegistrationRepo{
       await colRef.doc((DateTime.now().year+4).toString())
           .collection('registeredUsers')
           .doc(userIdMain)
-          .update({
+          .set({
         'name':name,
         'email':email,
         'collegeMail':collegeMail,
@@ -85,7 +85,6 @@ class RegistrationRepo{
   }
 
   static Future<void> completePaymentStatus() async{
-    print('object:was called2');
     final colRef = FirebaseFirestore.instance.collection('registration');
     final docRef = await colRef.doc((DateTime.now().year+4).toString()).get();
     final userDocRef = FirebaseFirestore.instance.collection('users').doc(userIdMain);
@@ -98,7 +97,6 @@ class RegistrationRepo{
             .update({
           'fee':true
         });
-        print('object:was called');
         await userDocRef
             .update({
           'fee':true,

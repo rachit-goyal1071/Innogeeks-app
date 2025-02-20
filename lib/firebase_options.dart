@@ -52,10 +52,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC8jE44H10k3rPpyOGF3-2jBUYdkpjMuSg',
-    appId: '1:96516272822:android:8b516823ae5fdc29772c17',
+    appId: '1:96516272822:android:8c39861de4126a9a772c17',
     messagingSenderId: '96516272822',
     projectId: 'innogeeks-app',
-    storageBucket: 'innogeeks-app.appspot.com',
+    storageBucket: 'innogeeks-app.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:96516272822:ios:0b31133dd3b7e580772c17',
     messagingSenderId: '96516272822',
     projectId: 'innogeeks-app',
-    storageBucket: 'innogeeks-app.appspot.com',
+    storageBucket: 'innogeeks-app.firebasestorage.app',
     iosBundleId: 'com.example.innogeeksApp',
   );
 

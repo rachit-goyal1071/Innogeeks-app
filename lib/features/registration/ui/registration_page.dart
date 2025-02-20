@@ -92,6 +92,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               useRootNavigator: false
             );
             await Future.delayed(const Duration(seconds: 2),()=> registrationBloc.add(MoveToCandidateFeePaymentPage())).then((_){
+              if(!context.mounted) return;
               Navigator.pop(context);
             });
           }
@@ -181,16 +182,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       SizedBox(height: getScreenHeight(context)*0.01,),
                       Center(child: SimpleTextButton(onTap: () async{
                         await RegistrationRepo.registerNewCandidate(
-                            name: nameController.text,
-                            email: emailController.text,
-                            collegeMail: collegeEmailController.text,
+                            name: nameController.text.trim(),
+                            email: emailController.text.trim(),
+                            collegeMail: collegeEmailController.text.trim(),
                             gender: genderController.dropDownValue!.value,
                             branch: branchController.dropDownValue!.value,
                             isHosteller: isHosteller.value,
-                            address: residenceController.text,
-                            mobileNumber: phoneController.text,
-                            lib: libController.text,
-                            description: descriptionController.text);
+                            address: residenceController.text.trim(),
+                            mobileNumber: phoneController.text.trim(),
+                            lib: libController.text.trim(),
+                            description: descriptionController.text.trim());
                         registrationBloc.add(CandidateRegisteredEvent());
                       }, text: 'Submit',width: 0.5,)),
                       SizedBox(height: getScreenHeight(context)*0.04,),
@@ -230,16 +231,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     SizedBox(height: getScreenHeight(context)*0.02,),
                     Center(
                       child: SimpleTextButton(onTap: () async{
-                        final order_id = await RazorpayAPI.createRazorpayOrder(amount: feeValue);
+                        final orderId = await RazorpayAPI.createRazorpayOrder(amount: feeValue);
                         if(kDebugMode){
-                          print(order_id.toString());
+                          print(orderId.toString());
                         }
                         Razorpay razorpay = Razorpay();
                         var options = {
                           'key':key,
                           'amount':50,
                           'name':'App Innogeeks',
-                          'order_id':order_id,
+                          'order_id':orderId,
                           'retry':{'enabled': true, 'max_count': 1},
                           'send_sms_hash': true,
                           'prefill': {'contact': successState.data['mobileNumber'], 'email': successState.data['mail']},

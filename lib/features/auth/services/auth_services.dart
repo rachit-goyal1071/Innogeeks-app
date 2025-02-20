@@ -72,7 +72,7 @@ class AuthService {
       'kietEmail': kietEmail,
       'libId': libId,
       'profileImage': profileImage,
-      'domain': domain
+      'domain': domain,
     });
   }
 
@@ -115,7 +115,7 @@ class AuthService {
   }) async {
     final firebaseMessaging = FirebaseMessaging.instance;
     final fcmToken = await firebaseMessaging.getToken();
-    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).update({
       'firstName': firstName,
       'lastName': lastName,
       'mobileNumber': mobileNumber,
@@ -123,6 +123,7 @@ class AuthService {
       'fcm': fcmToken,
       'email': email,
       'lib':lib,
+      'username':firstName.substring(0,1).toLowerCase()+lastName.substring(0,1).toLowerCase()+mobileNumber.substring(0,4)
     });
   }
 }

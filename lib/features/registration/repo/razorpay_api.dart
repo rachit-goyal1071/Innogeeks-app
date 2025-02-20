@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../../../constants/razorpay_key.dart';
 
@@ -26,15 +27,21 @@ class RazorpayAPI {
       );
       if (response.statusCode >= 200 && response.statusCode < 300) {
         Map<String, dynamic> responseData = json.decode(response.body);
-        print(response.body);
+        if (kDebugMode) {
+          print(response.body);
+        }
         return responseData['id'].toString();
       } else {
-        print(response.body);
+        if (kDebugMode) {
+          print(response.body);
+        }
         return '';
 
       }
     } catch (error) {
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
       return '';
     }
   }

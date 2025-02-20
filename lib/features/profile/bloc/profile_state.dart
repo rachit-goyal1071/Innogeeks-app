@@ -14,3 +14,5 @@ class ProfileLoadedSuccessState extends ProfileState{
     required this.data
   });
 }
+
+class ProfileWithDetailsFillingState extends ProfileActionState{}

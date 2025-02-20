@@ -75,6 +75,7 @@ class SimpleTextButton extends StatelessWidget {
   final Color color;
   final String text;
   final Color textColor;
+  final FontWeight weight;
 
   const SimpleTextButton({
     super.key,
@@ -85,7 +86,8 @@ class SimpleTextButton extends StatelessWidget {
     this.color = primaryInnoColor,
     this.textColor = Colors.white,
     required this.text,
-    required this.onTap
+    required this.onTap,
+    this.weight = FontWeight.w600
   });
 
   @override
@@ -107,6 +109,7 @@ class SimpleTextButton extends StatelessWidget {
                 color: color,
               ),
               child: SmallTextType(
+                weight: weight,
                 text: text,
                 color: textColor,
               )

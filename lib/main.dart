@@ -110,6 +110,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => NavBarBloc()),
       ],
       child: MaterialApp(
+        themeMode: ThemeMode.light,
         title: 'Only Geeks',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: primaryInnoColor),

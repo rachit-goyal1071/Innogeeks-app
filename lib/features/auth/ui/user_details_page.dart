@@ -27,8 +27,8 @@ class UserDetailsPageState extends State<UserDetailsPage> {
   final emailController = TextEditingController();
   String? phone = '';
 
-  void getPhoneNumber() async{
-    phone = await FirebaseAuth.instance.currentUser!.phoneNumber;
+  void getPhoneNumber() {
+    phone = FirebaseAuth.instance.currentUser!.phoneNumber;
     mobileController.text = phone!.substring(phone!.length - 10);
     setState(() {});
   }
@@ -107,19 +107,20 @@ class UserDetailsPageState extends State<UserDetailsPage> {
             SizedBox(height: getScreenWidth(context) * 0.07),
             TextButton(
               onPressed: () async {
-                if(firstNameController.text.isEmpty || lastNameController.text.isEmpty || mobileController.text.isEmpty || emailController.text.isEmpty || libController.text.isEmpty){
+                if(firstNameController.text.trim().isEmpty || lastNameController.text.trim().isEmpty || mobileController.text.trim().isEmpty || emailController.text.trim().isEmpty || libController.text.trim().isEmpty){
                   return openErrorSnackBar(context, "Please add complete details");
                 }
                 else {
                   await AuthService().uploadUserDetails(
-                    firstName: firstNameController.text,
-                    lastName: lastNameController.text,
-                    mobileNumber: mobileController.text,
-                    address: addressController.text,
-                    email: emailController.text,
-                    lib: libController.text
+                    firstName: firstNameController.text.trim(),
+                    lastName: lastNameController.text.trim(),
+                    mobileNumber: mobileController.text.trim(),
+                    address: addressController.text.trim(),
+                    email: emailController.text.trim(),
+                    lib: libController.text.trim()
                   );
-                  uploadFcm(firstNameController.text);
+                  uploadFcm(firstNameController.text.trim());
+                  if(!context.mounted) return;
                   Navigator.pushReplacementNamed(context, '/');
                 }
               },

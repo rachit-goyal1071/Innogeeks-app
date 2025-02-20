@@ -43,7 +43,7 @@ class StudentDataCard extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            Flexible(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,

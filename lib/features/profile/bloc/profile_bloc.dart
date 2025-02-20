@@ -16,6 +16,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final data = await ProfileRepo.getProfileDetails();
     if(data.isNotEmpty){
       emit(ProfileLoadedSuccessState(data: data));
+    }else if(data.isEmpty){
+      emit(ProfileWithDetailsFillingState());
     }
   }
 }

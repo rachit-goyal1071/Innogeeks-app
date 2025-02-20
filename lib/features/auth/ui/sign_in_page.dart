@@ -24,6 +24,7 @@ class SignInPage extends StatelessWidget {
             padding: const EdgeInsets.all(0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              spacing: getScreenHeight(context)*0.03,
               children: [
                 Image.asset(
                   'assets/images/innos_logo.png',
@@ -32,7 +33,7 @@ class SignInPage extends StatelessWidget {
                   fit: BoxFit.cover,
                   alignment: Alignment.centerLeft,
                 ),
-                const SizedBox(height: 20,),
+                // const SizedBox(height: 20,),
                 Text(
                   'ONLY GEEKS',
                   style: GoogleFonts.sourceSans3(
@@ -40,7 +41,7 @@ class SignInPage extends StatelessWidget {
                     fontSize: getScreenHeight(context)*0.054,
                     fontWeight: FontWeight.w700,
                   ),),
-                const SizedBox(height: 20),
+                // const SizedBox(height: 20),
                 const Row(
                   children: [
                     Expanded(
@@ -67,7 +68,7 @@ class SignInPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                // const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(left:19,right:19),
                   child: TextFormField(
@@ -96,11 +97,11 @@ class SignInPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20,),
+                // const SizedBox(height: 20,),
                 BlocConsumer<AuthCubit,AuthState>(
                   listener: (context,state){
                     if(state is AuthCodeSentState){
-                      Navigator.push(context, CupertinoPageRoute(builder: (context)=> VerifyOtpPage(gotNumber: phoneController.text)));
+                      Navigator.push(context, CupertinoPageRoute(builder: (context)=> VerifyOtpPage(gotNumber: phoneController.text.trim())));
                     }else if(state is AuthErrorState){
                       if (kDebugMode) {
                         print(state.error);
@@ -123,7 +124,7 @@ class SignInPage extends StatelessWidget {
                       width: getScreenWidth(context)*0.7,
                       child: ElevatedButton(
                         onPressed: (){
-                          String phoneNumber = '+91${phoneController.text}';
+                          String phoneNumber = '+91${phoneController.text.trim()}';
                           BlocProvider.of<AuthCubit>(context).sendOtp(phoneNumber, context);
                         },
                         style: ElevatedButton.styleFrom(

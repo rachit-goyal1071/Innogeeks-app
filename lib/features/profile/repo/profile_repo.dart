@@ -11,10 +11,11 @@ import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:innogeeks_app/constants/innogeeks_fcm.dart';
+import 'package:video_compress/video_compress.dart';
 
 class ProfileRepo {
 
-  static Future<String> uploadImage() async {
+  static Future<String> uploadImage(String folder) async {
     final ImagePicker imagePicker = ImagePicker();
     final XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
 
@@ -30,7 +31,7 @@ class ProfileRepo {
 
       final String fileName = DateTime.now().millisecondsSinceEpoch.toString();
       final Reference referenceRoot = FirebaseStorage.instance.ref();
-      final Reference referenceDirImage = referenceRoot.child('images');
+      final Reference referenceDirImage = referenceRoot.child(folder);
       final Reference referenceImageToUpload =
       referenceDirImage.child('$fileName.jpg');
 
@@ -47,10 +48,9 @@ class ProfileRepo {
     }
   }
 
-  static Future<String> selectImage() async {
+  static Future<String> selectImage(String folder, bool dateWise) async {
     final ImagePicker imagePicker = ImagePicker();
-    final XFile? file =
-    await imagePicker.pickImage(source: ImageSource.gallery);
+    final XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (file == null) return '';
 
@@ -61,21 +61,69 @@ class ProfileRepo {
       final decodedImage = img.decodeImage(imageFile.readAsBytesSync());
       final compressedImage = img.encodeJpg(decodedImage!,
           quality: 15); // Adjust the quality as needed
-
       final String fileName = DateTime.now().millisecondsSinceEpoch.toString();
       final Reference referenceRoot = FirebaseStorage.instance.ref();
-      final Reference referenceDirImage = referenceRoot.child('images');
+      final Reference referenceDirImage = referenceRoot.child(folder);
       final Reference referenceImageToUpload =
+      dateWise?
+      referenceDirImage.child('${DateTime.now().month}_${DateTime.now().year}/$fileName.jpg'):
       referenceDirImage.child('$fileName.jpg');
-
-      await referenceImageToUpload
-          .putData(compressedImage); // Use putData instead of putFile
+      await referenceImageToUpload.putData(compressedImage); // Use putData instead of putFile
 
       final String imageUrl = await referenceImageToUpload.getDownloadURL();
       return imageUrl;
     } catch (e) {
       if (kDebugMode) {
         print('Error uploading image: $e');
+      }
+      return '';
+    }
+  }
+
+  static Future<String> selectVideo(String folder, bool dateWise) async {
+    final ImagePicker videoPicker = ImagePicker();
+    final XFile? file = await videoPicker.pickVideo(
+      source: ImageSource.gallery,
+      maxDuration: const Duration(minutes: 20),
+    );
+    if (file == null) return '';
+
+    try {
+      final File videoFile = File(file.path);
+
+      MediaInfo? mediaInfo = await VideoCompress.compressVideo(
+        videoFile.path,
+        quality: VideoQuality.LowQuality,
+        deleteOrigin: false,
+      );
+
+      if (mediaInfo == null || mediaInfo.file == null) {
+        throw Exception("Video compression failed");
+      }
+
+      final File compressedVideoFile = mediaInfo.file!;
+
+      final String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      final Reference storageRef = FirebaseStorage.instance.ref();
+      final Reference videoDir = storageRef.child(folder);
+      final Reference uploadRef = dateWise
+          ? videoDir.child('${DateTime.now().month}_${DateTime.now().year}/$fileName.mp4')
+          : videoDir.child('$fileName.mp4');
+
+      SettableMetadata metadata = SettableMetadata(
+        contentType: 'video/mp4',
+      );
+      await uploadRef.putFile(compressedVideoFile, metadata);
+
+      final String videoUrl = await uploadRef.getDownloadURL();
+
+      VideoCompress.deleteAllCache();
+
+      return videoUrl;
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error uploading video: $e');
+        print(stackTrace);
       }
       return '';
     }
@@ -196,10 +244,14 @@ class ProfileRepo {
         for(i; i<titles.length-1;i++){
           newTitle =newTitle + titles[i] + docGet.get('name');
         }
-        print(titles);
+        if (kDebugMode) {
+          print(titles);
+        }
         body = newTitle + titles.last;
       }catch(e){
-        print(e.toString());
+        if (kDebugMode) {
+          print(e.toString());
+        }
       }
     }
     final Map<String, dynamic> message =
